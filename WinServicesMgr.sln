@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinServicesMgr", "WinServicesMgr\WinServicesMgr.csproj", "{D67E0BD3-C41B-4CB7-B2F6-66F0D9517895}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D67E0BD3-C41B-4CB7-B2F6-66F0D9517895}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D67E0BD3-C41B-4CB7-B2F6-66F0D9517895}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D67E0BD3-C41B-4CB7-B2F6-66F0D9517895}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D67E0BD3-C41B-4CB7-B2F6-66F0D9517895}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F30DD25A-8EFF-479F-A41A-E2833FAA169D}
+	EndGlobalSection
+EndGlobal
