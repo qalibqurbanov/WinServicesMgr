@@ -74,7 +74,7 @@ namespace WinServicesMgr
                         {
                             var servis = new ManagementObject(new ManagementPath(string.Format($"Win32_Service.Name='{service.ServiceName}'")));
                             if (servis["Description"] != null) { rtbDescription.Text = servis["Description"].ToString(); }
-                            else { rtbDescription.Text = ""; }
+                            else { rtbDescription.Text = "No Description Found"; }
                         }
                     });
                 }
