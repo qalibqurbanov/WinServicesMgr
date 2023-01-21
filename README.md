@@ -1,5 +1,3 @@
-# 
-Manage Windows Services
 # <p align="center">WinServicesMgr</p>
 <p align="center">Manage Windows Services.</p>
 
