@@ -5,6 +5,7 @@ Manage Windows Services
 
 ## TODO
 - Servisleri export/import etme funksionalligi.
-- Form her load olanda servisleri elde edib listview-ya doldurmaqdansa, app ilk acilanda servisleri elde et ve hemin bu cache-den doldur listview-nu.
+- Form her load olanda servisleri elde edib listview-ya doldurmaqdansa, app ilk acilanda servisleri elde et appin yaninda bir faylda ve hemin bu cache-den doldur listview-nu.
 - Kontekst menyu elave etmek olar, hazirda secili olan servisin veziyyetini deyiwmek ucun.
+- Hazirda iwleyen/iwlemeyen servisleri sirala yalniz.
 - ...
