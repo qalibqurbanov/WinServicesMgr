@@ -24,7 +24,7 @@ namespace WinServicesMgr
         private static readonly ServiceController[] services = ServiceController.GetServices().OrderBy(x => x.DisplayName).ToArray<ServiceController>();
 
         /// <summary>
-        /// ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
+        /// Servis haqqinda melumatlari yazacagim fayl.
         /// </summary>
         private static string DestinationFilePath = Assembly.GetExecutingAssembly().Location.Substring(0, Assembly.GetExecutingAssembly().Location.LastIndexOf(@"\")) + @"\ServicesList.json";
         #endregion Vars
