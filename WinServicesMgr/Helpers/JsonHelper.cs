@@ -7,7 +7,7 @@ namespace WinServicesMgr.Helpers
     /// <summary>
     /// Json Serialization/Deserialization etmek ucun komekci sinif.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">'JsonHelper' sinifi icerisinde hansi T tipinden istifade edilsin.</typeparam>
     public static class JsonHelper<T> where T : class, new()
     {
         /// <summary>
