@@ -57,11 +57,11 @@
             this.lvServices.FullRowSelect = true;
             this.lvServices.GridLines = true;
             this.lvServices.HideSelection = false;
-            this.lvServices.Location = new System.Drawing.Point(0, 24);
-            this.lvServices.Margin = new System.Windows.Forms.Padding(4);
+            this.lvServices.Location = new System.Drawing.Point(0, 25);
+            this.lvServices.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.lvServices.MultiSelect = false;
             this.lvServices.Name = "lvServices";
-            this.lvServices.Size = new System.Drawing.Size(709, 301);
+            this.lvServices.Size = new System.Drawing.Size(717, 352);
             this.lvServices.TabIndex = 0;
             this.lvServices.UseCompatibleStateImageBehavior = false;
             this.lvServices.View = System.Windows.Forms.View.Details;
@@ -70,18 +70,18 @@
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Text = "Display name";
+            this.columnHeader1.Text = "Short name";
             this.columnHeader1.Width = 307;
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "Service name";
+            this.columnHeader2.Text = "Status";
             this.columnHeader2.Width = 256;
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "Service status";
-            this.columnHeader3.Width = 103;
+            this.columnHeader3.Text = "Long name";
+            this.columnHeader3.Width = 122;
             // 
             // mainMenu
             // 
@@ -91,9 +91,9 @@
             this.helpToolStripMenuItem});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
-            this.mainMenu.Padding = new System.Windows.Forms.Padding(7, 3, 0, 3);
+            this.mainMenu.Padding = new System.Windows.Forms.Padding(9, 4, 0, 4);
             this.mainMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.mainMenu.Size = new System.Drawing.Size(709, 24);
+            this.mainMenu.Size = new System.Drawing.Size(717, 25);
             this.mainMenu.TabIndex = 1;
             this.mainMenu.Text = "menuStrip1";
             // 
@@ -111,24 +111,24 @@
             // ımportExportToolStripMenuItem
             // 
             this.ımportExportToolStripMenuItem.Name = "ımportExportToolStripMenuItem";
-            this.ımportExportToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.ımportExportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ımportExportToolStripMenuItem.Text = "Export statuses";
             // 
             // ımportToolStripMenuItem
             // 
             this.ımportToolStripMenuItem.Name = "ımportToolStripMenuItem";
-            this.ımportToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.ımportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ımportToolStripMenuItem.Text = "Import statuses";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(150, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // viewToolStripMenuItem
@@ -162,25 +162,25 @@
             // rtbDescription
             // 
             this.rtbDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbDescription.Location = new System.Drawing.Point(0, 325);
-            this.rtbDescription.Margin = new System.Windows.Forms.Padding(4);
+            this.rtbDescription.Location = new System.Drawing.Point(0, 377);
+            this.rtbDescription.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.rtbDescription.Name = "rtbDescription";
-            this.rtbDescription.Size = new System.Drawing.Size(709, 76);
+            this.rtbDescription.Size = new System.Drawing.Size(717, 103);
             this.rtbDescription.TabIndex = 2;
             this.rtbDescription.Text = "";
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(709, 401);
+            this.ClientSize = new System.Drawing.Size(717, 480);
             this.Controls.Add(this.rtbDescription);
             this.Controls.Add(this.lvServices);
             this.Controls.Add(this.mainMenu);
-            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.mainMenu;
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "WinServicesMgr";
