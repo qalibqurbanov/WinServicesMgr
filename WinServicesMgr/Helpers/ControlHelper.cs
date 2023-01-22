@@ -16,19 +16,15 @@ namespace WinServicesMgr.Helpers
         /// <param name="ServiceName">Elave edilecek 'ServiceName'.</param>
         /// <param name="ServiceStatus">Elave edilecek 'ServiceStatus'.</param>
         /// <param name="DisplayName">Elave edilecek 'DisplayName'.</param>
-        public static void AddToListViewAndBeautify(ListView ListViewControl, string ServiceName, ServiceControllerStatus ServiceStatus, string DisplayName)
+        public static void AddToListViewAndBeautify(ListView ListViewControl, string ServiceName, ServiceStartMode ServiceStatus, string DisplayName)
         {
             ListViewItem listViewItem = new ListViewItem(new string[] { ServiceName, ServiceStatus.ToString(), DisplayName });
             switch (ServiceStatus)
             {
-                case ServiceControllerStatus.Stopped:
-                case ServiceControllerStatus.StopPending: listViewItem.BackColor = Color.OrangeRed; break;
-
-                case ServiceControllerStatus.StartPending:
-                case ServiceControllerStatus.Running: listViewItem.BackColor = Color.LawnGreen; break;
-
-                case ServiceControllerStatus.PausePending:
-                case ServiceControllerStatus.Paused: listViewItem.BackColor = Color.Yellow; break;
+                case ServiceStartMode.Disabled: listViewItem.BackColor = Color.Tomato; break;
+                case ServiceStartMode.Manual: listViewItem.BackColor = Color.LimeGreen; break;
+                case ServiceStartMode.Automatic: listViewItem.BackColor = Color.LawnGreen; break;
+                // LightSkyBlue
 
                 default: listViewItem.BackColor = Color.White; break;
             }

@@ -61,7 +61,7 @@
             this.lvServices.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.lvServices.MultiSelect = false;
             this.lvServices.Name = "lvServices";
-            this.lvServices.Size = new System.Drawing.Size(717, 352);
+            this.lvServices.Size = new System.Drawing.Size(717, 365);
             this.lvServices.TabIndex = 0;
             this.lvServices.UseCompatibleStateImageBehavior = false;
             this.lvServices.View = System.Windows.Forms.View.Details;
@@ -75,7 +75,7 @@
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "Status";
+            this.columnHeader2.Text = "Start mode";
             this.columnHeader2.Width = 256;
             // 
             // columnHeader3
@@ -111,26 +111,26 @@
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.exportToolStripMenuItem.Text = "Export statuses";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.importToolStripMenuItem.Text = "Import statuses";
             this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(150, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -145,7 +145,7 @@
             // showDescriptionToolStripMenuItem
             // 
             this.showDescriptionToolStripMenuItem.Name = "showDescriptionToolStripMenuItem";
-            this.showDescriptionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showDescriptionToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.showDescriptionToolStripMenuItem.Text = "Show description";
             // 
             // helpToolStripMenuItem
@@ -159,16 +159,16 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.aboutToolStripMenuItem.Text = "About";
             // 
             // rtbDescription
             // 
             this.rtbDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbDescription.Location = new System.Drawing.Point(0, 377);
+            this.rtbDescription.Location = new System.Drawing.Point(0, 390);
             this.rtbDescription.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.rtbDescription.Name = "rtbDescription";
-            this.rtbDescription.Size = new System.Drawing.Size(717, 103);
+            this.rtbDescription.Size = new System.Drawing.Size(717, 90);
             this.rtbDescription.TabIndex = 2;
             this.rtbDescription.Text = "";
             // 

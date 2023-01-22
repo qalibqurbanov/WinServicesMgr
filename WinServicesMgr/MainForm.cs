@@ -62,7 +62,7 @@ namespace WinServicesMgr
                         List<ServiceEntity> resultEntity = JsonHelper<ServiceEntity>.Deserialize(DestinationFilePath);
                         foreach (var entity in resultEntity)
                         {
-                            ControlHelper.AddToListViewAndBeautify(lvServices, entity.ServiceName, entity.ServiceStatus, entity.DisplayName);
+                            ControlHelper.AddToListViewAndBeautify(lvServices, entity.ServiceName, entity.ServiceStartMode, entity.DisplayName);
                         }
                     }
                     catch { lvServices.Items.Clear(); }
@@ -74,9 +74,9 @@ namespace WinServicesMgr
 
                 foreach (ServiceController service in services)
                 {
-                    listOfServiceEntity.Add(new ServiceEntity() { DisplayName = service.DisplayName, ServiceName = service.ServiceName, ServiceStatus = service.Status });
+                    listOfServiceEntity.Add(new ServiceEntity() { DisplayName = service.DisplayName, ServiceName = service.ServiceName, ServiceStartMode = service.StartType });
 
-                    ControlHelper.AddToListViewAndBeautify(lvServices, service.ServiceName, service.Status, service.DisplayName);
+                    ControlHelper.AddToListViewAndBeautify(lvServices, service.ServiceName, service.StartType, service.DisplayName);
                 }
 
                 JsonHelper<ServiceEntity>.Serialize
