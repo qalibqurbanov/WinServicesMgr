@@ -17,4 +17,6 @@
 - Appin hazirda iwleyib-iwlemediyinide listview-da gostermek olar.
 - Kontekst menyu elave etmek olar, hazirda secili olan servisin veziyyetini deyiwmek ucun.
 - Hazirda iwleyen/iwlemeyen servisleri sirala yalniz.
+- Servisleri bagladiqdan sonra, mesaj ve yaxud bawqa bir yolla bildirki kompu restart etmelidir.
+- Loqlama et, ozune gonder.
 - ...
