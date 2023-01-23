@@ -5,7 +5,7 @@ using System.ServiceProcess;
 namespace WinServicesMgr.Helpers
 {
     /// <summary>
-    /// Form Controllari ile elaqeli komekci sinif.
+    /// Form-un Control-lari ile elaqeli komekci sinif.
     /// </summary>
     static class ControlHelper
     {

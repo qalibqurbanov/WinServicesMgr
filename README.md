@@ -1,5 +1,5 @@
 # <p align="center">WinServicesMgr</p>
-<p align="center">Export and import Windows Services states.</p>
+<p align="center">Manage Windows Services.</p>
 
 ## TODO
 - Servisleri export/import etme funksionalligi.

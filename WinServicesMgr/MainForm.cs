@@ -15,6 +15,9 @@ using System.Collections.Generic;
 
 namespace WinServicesMgr
 {
+    /// <summary>
+    /// Proqramin esas penceresi.
+    /// </summary>
     public partial class MainForm : Form
     {
         #region Vars
@@ -24,9 +27,9 @@ namespace WinServicesMgr
         private static readonly ServiceController[] services = ServiceController.GetServices().OrderBy(x => x.DisplayName).ToArray<ServiceController>();
 
         /// <summary>
-        /// Servis haqqinda melumatlari yazacagim fayl.
+        /// Proqram acilanda ilk bawda servisleri cacheleyib, sonraki appin aciliwlarinda servisleri cachelediyim fayldan oxuyacam. Bu deyiwen mehz proqram acilan zaman iwledeceyim hemin cache json faylini temsil edir. (+ Hemde etdiyimiz servis deyiwikliklerinden razi olmamagimiz veya deyiwikliklerin sebeb oldugu bir problem movcuddursa bu fayli backup fayli kimide iwletmek olar)
         /// </summary>
-        private static string DestinationFilePath = Assembly.GetExecutingAssembly().Location.Substring(0, Assembly.GetExecutingAssembly().Location.LastIndexOf(@"\")) + @"\ServicesList.json";
+        private static string CacheFilePath = Assembly.GetExecutingAssembly().Location.Substring(0, Assembly.GetExecutingAssembly().Location.LastIndexOf(@"\")) + @"\ServicesList.json";
         #endregion Vars
 
         public MainForm()
@@ -53,13 +56,13 @@ namespace WinServicesMgr
 
         private void WinServicesMgr_Load(object sender, EventArgs e)
         {
-            if (File.Exists(DestinationFilePath))
+            if (File.Exists(CacheFilePath))
             {
-                if (new FileInfo(DestinationFilePath).Length > 0)
+                if (new FileInfo(CacheFilePath).Length > 0)
                 {
                     try
                     {
-                        List<ServiceEntity> resultEntity = JsonHelper<ServiceEntity>.Deserialize(DestinationFilePath);
+                        List<ServiceEntity> resultEntity = JsonHelper<ServiceEntity>.Deserialize(CacheFilePath);
                         foreach (var entity in resultEntity)
                         {
                             ControlHelper.AddToListViewAndBeautify(lvServices, entity.ServiceName, entity.ServiceStartMode, entity.DisplayName);
@@ -82,7 +85,7 @@ namespace WinServicesMgr
                 JsonHelper<ServiceEntity>.Serialize
                 (
                     Entity: listOfServiceEntity,
-                    FilePath: DestinationFilePath
+                    FilePath: CacheFilePath
                 );
             }
 
@@ -97,8 +100,9 @@ namespace WinServicesMgr
                 if (lvServices.SelectedIndices.Count > 0)
                 {
                     string selectedServiceName = lvServices.SelectedItems[0].SubItems[0].Text;
-                    services.ToList().ForEach((service) =>
+                    foreach (ServiceController service in services)
                     {
+
                         if (service.ServiceName == selectedServiceName)
                         {
                             var servis = new ManagementObject(new ManagementPath(string.Format($"Win32_Service.Name='{service.ServiceName}'")));
@@ -106,7 +110,7 @@ namespace WinServicesMgr
 
                             rtbDescription.Text = rtbDescription.Text.TrimEnd().EndsWith(".") ? rtbDescription.Text : rtbDescription.Text.Insert(rtbDescription.Text.Length, ".");
                         }
-                    });
+                    }
                 }
             }
             catch { }
@@ -114,21 +118,25 @@ namespace WinServicesMgr
 
         private void lvServices_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
-                string selectedServiceName = lvServices.SelectedItems[0].SubItems[0].Text;
+                try
+                {
+                    string selectedServiceName = lvServices.SelectedItems[0].SubItems[0].Text;
 
-                /* Regedit aciq idise, birbawa acilmasini istediyimiz hedef Keye yonlendirib gostere bilmerik, cunki artiq Regedit aciqdir. Yonlendirmemiwden qabaq regediti baglamaliyiq, baglamasaq, aciq qalsa regedit, yeni acmaga caliwdigimiz regedit acilmayaq ve evvelceden aciq olan regedit penceresine fokuslanacayiq. Ona gorede regediti baglayiriq Keyi acmamiwdan qabaq: */
-                foreach (Process proc in Process.GetProcessesByName("regedit")) proc.Kill();
+                    /* Regedit aciq idise, birbawa acilmasini istediyimiz hedef Keye yonlendirib gostere bilmerik, cunki artiq Regedit aciqdir. Yonlendirmemiwden qabaq regediti baglamaliyiq, baglamasaq, aciq qalsa regedit, yeni acmaga caliwdigimiz regedit acilmayaq ve evvelceden aciq olan regedit penceresine fokuslanacayiq. Ona gorede regediti baglayiriq Keyi acmamiwdan qabaq: */
+                    foreach (Process proc in Process.GetProcessesByName("regedit")) proc.Kill();
 
-                /* Regedit acilanda fokuslanmagini istediyim Key: */
-                var Path = Registry.LocalMachine.OpenSubKey($"SYSTEM\\CurrentControlSet\\Services\\{selectedServiceName}");
+                    /* Regedit acilanda fokuslanmagini istediyim Key: */
+                    var Path = Registry.LocalMachine.OpenSubKey($"SYSTEM\\CurrentControlSet\\Services\\{selectedServiceName}");
 
-                /* Reyestrda son aciq qalan yolu saxlayan Keydir awagidaki, bu Keyde olan yol acilir Regedit proqrami acilanda. Eger bu keyin deyerini acilmasini istediyimiz Key ile deyiwsek, demeli regedit acilanda son aciq qalan Key olaraq bizim verdiyimiz Keyi bilecek: */
-                Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Applets\\Regedit").SetValue("LastKey", Path);
+                    /* Reyestrda son aciq qalan yolu saxlayan Keydir awagidaki, bu Keyde olan yol acilir Regedit proqrami acilanda. Eger bu keyin deyerini acilmasini istediyimiz Key ile deyiwsek, demeli regedit acilanda son aciq qalan Key olaraq bizim verdiyimiz Keyi bilecek: */
+                    Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Applets\\Regedit").SetValue("LastKey", Path);
 
-                /* Regedit-i bawlat: */
-                Process.Start("regedit");
+                    /* Regedit-i bawlat: */
+                    Process.Start("regedit");
+                }
+                catch { }
             }
         }
 
@@ -141,7 +149,31 @@ namespace WinServicesMgr
         {
             using (SaveFileDialog SFD = new SaveFileDialog())
             {
+                SFD.Title = "WinServicesMgr";
+                SFD.FileName = Guid.NewGuid().ToString().Replace("-", "");
+                SFD.RestoreDirectory = true;
+                SFD.OverwritePrompt = true;
+                SFD.InitialDirectory = Environment.SpecialFolder.Desktop.ToString();
+                SFD.DefaultExt = ".json";
+                SFD.Filter = "JSON file|*.json";
 
+                if (SFD.ShowDialog() == DialogResult.OK)
+                {
+                    string SelectedFilePath = SFD.FileName;
+
+                    List<ServiceStateEntity> listOfServiceEntity = new List<ServiceStateEntity>();
+
+                    foreach (ServiceController service in services)
+                    {
+                        listOfServiceEntity.Add(new ServiceStateEntity() { ServiceName = service.ServiceName, ServiceStartMode = service.StartType });
+                    }
+
+                    JsonHelper<ServiceStateEntity>.Serialize
+                    (
+                        Entity: listOfServiceEntity,
+                        FilePath: SelectedFilePath
+                    );
+                }
             }
         }
 
@@ -149,7 +181,31 @@ namespace WinServicesMgr
         {
             using (OpenFileDialog OFD = new OpenFileDialog())
             {
+                OFD.Title = "WinServicesMgr";
+                OFD.RestoreDirectory = true;
+                OFD.InitialDirectory = Environment.SpecialFolder.Desktop.ToString();
+                OFD.DefaultExt = ".json";
+                OFD.Filter = "JSON file|*.json";
 
+                if (OFD.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        List<ServiceStateEntity> resultEntity = JsonHelper<ServiceStateEntity>.Deserialize(CacheFilePath);
+
+                        int result = RegistryHelper.ChangeServiceStartMode(resultEntity);
+
+                        lvServices.Items.Clear();
+                        foreach (ServiceController service in services)
+                            ControlHelper.AddToListViewAndBeautify(lvServices, service.ServiceName, service.StartType, service.DisplayName);
+
+                        if(result > 0)
+                            MessageBox.Show($"x{result} service state changed.");
+                        else if(result <= 0)
+                            MessageBox.Show("0 service state changed.");
+                    }
+                    catch { lvServices.Items.Clear(); }
+                }
             }
         }
     }

@@ -1,19 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WinServicesMgr.Entities
 {
+    /// <summary>
+    /// Servisin veziyyetini temsil edir.
+    /// </summary>
     [DataContract]
     internal class ServiceStateEntity
     {
+        /// <summary>
+        /// Servisin adi.
+        /// </summary>
         [DataMember]
         public string ServiceName { get; set; }
 
+        /// <summary>
+        /// Servisin start tipi.
+        /// </summary>
         [DataMember]
         public ServiceStartMode ServiceStartMode { get; set; }
     }
