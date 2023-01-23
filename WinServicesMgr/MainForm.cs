@@ -27,9 +27,9 @@ namespace WinServicesMgr
         private static readonly ServiceController[] services = ServiceController.GetServices().OrderBy(x => x.DisplayName).ToArray<ServiceController>();
 
         /// <summary>
-        /// Proqram acilanda ilk bawda servisleri cacheleyib, sonraki appin aciliwlarinda servisleri cachelediyim fayldan oxuyacam. Bu deyiwen mehz proqram acilan zaman iwledeceyim hemin cache json faylini temsil edir. (+ Hemde etdiyimiz servis deyiwikliklerinden razi olmamagimiz veya deyiwikliklerin sebeb oldugu bir problem movcuddursa bu fayli backup fayli kimide iwletmek olar)
+        /// Proqram acilanda ilk bawda servisleri cacheleyib, sonraki appin aciliwlarinda servisleri cachelediyim fayldan oxuyacam. Bu deyiwen mehz proqram acilan zaman iwledeceyim hemin cache json faylini temsil edir. (+ Hemde etdiyimiz servis deyiwikliklerinden razi olmamagimiz veya deyiwikliklerin sebeb oldugu bir problem movcuddursa bu fayli backup fayli kimide iwletmek olar.) Amma bu fayl X bir vaxtda silinib yeniden yaradilmalidir, cunki hazirda elimizde olan cachelenmiw json kohne datalarada sahib ola biler, yeni ki yeni servisler olmuw ola biler hansiki hemin yeni servisler kohneden qalan json icerisinde olmayacaq (hell etdim, sadece yeni servis yarananda test etmek lazimdir).
         /// </summary>
-        private static string CacheFilePath = Assembly.GetExecutingAssembly().Location.Substring(0, Assembly.GetExecutingAssembly().Location.LastIndexOf(@"\")) + @"\ServicesList.json";
+        private static readonly string CacheFilePath = Assembly.GetExecutingAssembly().Location.Substring(0, Assembly.GetExecutingAssembly().Location.LastIndexOf(@"\")) + @"\ServicesList.json";
         #endregion Vars
 
         public MainForm()
@@ -56,6 +56,8 @@ namespace WinServicesMgr
 
         private void WinServicesMgr_Load(object sender, EventArgs e)
         {
+            int servicesCount = services.Length;
+
             if (File.Exists(CacheFilePath))
             {
                 if (new FileInfo(CacheFilePath).Length > 0)
@@ -63,9 +65,20 @@ namespace WinServicesMgr
                     try
                     {
                         List<ServiceEntity> resultEntity = JsonHelper<ServiceEntity>.Deserialize(CacheFilePath);
-                        foreach (var entity in resultEntity)
+
+                        if (resultEntity.Count == servicesCount)
                         {
-                            ControlHelper.AddToListViewAndBeautify(lvServices, entity.ServiceName, entity.ServiceStartMode, entity.DisplayName);
+                            foreach (var entity in resultEntity)
+                            {
+                                ControlHelper.AddToListViewAndBeautify(lvServices, entity.ServiceName, entity.ServiceStartMode, entity.DisplayName);
+                            }
+                        }
+                        else if (File.Exists(CacheFilePath))
+                        {
+                            File.Delete(CacheFilePath);
+
+                            Application.Restart();
+                            Process.GetCurrentProcess().Kill();
                         }
                     }
                     catch { lvServices.Items.Clear(); }
@@ -102,14 +115,16 @@ namespace WinServicesMgr
                     string selectedServiceName = lvServices.SelectedItems[0].SubItems[0].Text;
                     foreach (ServiceController service in services)
                     {
-
                         if (service.ServiceName == selectedServiceName)
                         {
-                            var servis = new ManagementObject(new ManagementPath(string.Format($"Win32_Service.Name='{service.ServiceName}'")));
+                            ManagementObject servis = new ManagementObject(new ManagementPath(string.Format($"Win32_Service.Name='{service.ServiceName}'")));
                             rtbDescription.Text = servis["Description"] != null ? servis["Description"].ToString() : "No Description Found";
 
                             rtbDescription.Text = rtbDescription.Text.TrimEnd().EndsWith(".") ? rtbDescription.Text : rtbDescription.Text.Insert(rtbDescription.Text.Length, ".");
+
+                            break;
                         }
+                        else { rtbDescription.Text = "No Description Found."; }
                     }
                 }
             }
