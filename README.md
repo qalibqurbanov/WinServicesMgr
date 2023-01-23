@@ -1,5 +1,17 @@
 # <p align="center">WinServicesMgr</p>
 <p align="center">Export and import Windows Services states.</p>
+<br/> <img alt="AppScreenshot" src="https://i.ibb.co/fnPQGvb/Win-Services-Mgr.png" width="100%"/> 
+
+# Project requirements:
+- [Net Framework v4.6.2](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net462)
+
+
+# Used libraries, icons:
+**Icons:**
+| Name | URL     |
+| :-------- | :------- |
+| `Icons` | [https://icons8.com](https://icons8.com) |
+
 
 ## TODO
 - Appin hazirda iwleyib-iwlemediyinide listview-da gostermek olar.
