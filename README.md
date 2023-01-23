@@ -13,7 +13,7 @@
 | `Icons` | [https://icons8.com](https://icons8.com) |
 
 
-## TODO
+# TODO
 - Appin hazirda iwleyib-iwlemediyinide listview-da gostermek olar.
 - Kontekst menyu elave etmek olar, hazirda secili olan servisin veziyyetini deyiwmek ucun.
 - Hazirda iwleyen/iwlemeyen servisleri sirala yalniz.
