@@ -6,7 +6,7 @@
 - [Net Framework v4.6.2](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net462)
 
 
-# Used libraries, icons:
+# Used icons:
 **Icons:**
 | Name | URL     |
 | :-------- | :------- |
