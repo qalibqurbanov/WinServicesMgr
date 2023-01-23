@@ -14,9 +14,9 @@
 
 
 # TODO
-- Appin hazirda iwleyib-iwlemediyinide listview-da gostermek olar.
-- Kontekst menyu elave etmek olar, hazirda secili olan servisin veziyyetini deyiwmek ucun.
+- Appin hazirda iwleyib-iwlemediyini de ListView-da gostermek olar.
+- Hazirda secili olan servisin veziyyetini deyiwmek ucun kontekst menyu elave etmek olar.
 - Hazirda iwleyen/iwlemeyen servisleri sirala yalniz.
-- Servisleri bagladiqdan sonra, mesaj ve yaxud bawqa bir yolla bildirki kompu restart etmelidir.
+- Servisleri bagladiqdan sonra, mesaj ve yaxud bawqa bir yolla bildir ki komp restart edilmelidir.
 - Loqlama et, ozune gonder.
 - ...
