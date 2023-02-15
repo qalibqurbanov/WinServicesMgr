@@ -49,10 +49,6 @@ namespace WinServicesMgr.Helpers
             }
 
             return null;
-
-            /*
-                * 
-             */
         }
     }
 }
