@@ -27,7 +27,7 @@ namespace WinServicesMgr
         private static readonly ServiceController[] services = ServiceController.GetServices().OrderBy(x => x.DisplayName).ToArray<ServiceController>();
 
         /// <summary>
-        /// Proqram acilanda ilk bawda servisleri cacheleyib, sonraki appin aciliwlarinda servisleri cachelediyim fayldan oxuyacam. Bu deyiwen mehz proqram acilan zaman iwledeceyim hemin cache json faylini temsil edir. (+ Hemde etdiyimiz servis deyiwikliklerinden razi olmamagimiz veya deyiwikliklerin sebeb oldugu bir problem movcuddursa bu fayli backup fayli kimide iwletmek olar.) Amma bu fayl X bir vaxtda silinib yeniden yaradilmalidir, cunki hazirda elimizde olan cachelenmiw json kohne datalarada sahib ola biler, yeni ki yeni servisler olmuw ola biler hansiki hemin yeni servisler kohneden qalan json icerisinde olmayacaq (hell etdim, sadece yeni servis yarananda test etmek lazimdir).
+        /// Proqram acilanda ilk bawda servisleri cacheleyib, sonraki appin aciliwlarinda servisleri cachelediyim fayldan oxuyacam. Bu deyiwen mehz proqram acilan zaman iwledeceyim hemin cache json faylini temsil edir. (+ Hemde etdiyimiz servis deyiwikliklerinden razi olmamagimiz ve ya deyiwikliklerin sebeb oldugu bir problem movcuddursa bu fayli backup fayli kimide iwletmek olar.) Amma bu fayl X bir vaxtda silinib yeniden yaradilmalidir, cunki hazirda elimizde olan cachelenmiw json kohne datalarada sahib ola biler, yeni ki yeni servisler olmuw ola biler hansiki hemin yeni servisler kohneden qalan json icerisinde olmayacaq (hell etdim, sadece yeni servis yarananda test etmek lazimdir).
         /// </summary>
         private static readonly string CacheFilePath = Assembly.GetExecutingAssembly().Location.Substring(0, Assembly.GetExecutingAssembly().Location.LastIndexOf(@"\")) + @"\ServicesList.json";
         #endregion Vars
@@ -38,7 +38,7 @@ namespace WinServicesMgr
 
             #region Form settings
             this.Text = "WinServicesMgr";
-            this.Icon = WinServicesMgr.Properties.Resources.app;
+            this.Icon = WinServicesMgr.Properties.Resources.appICO;
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.Font = new Font("Segoe UI", 12);
@@ -56,54 +56,59 @@ namespace WinServicesMgr
 
         private void WinServicesMgr_Load(object sender, EventArgs e)
         {
-            int servicesCount = services.Length;
+            bool result = UserHelper.IsUserAdministrator();
 
-            if (File.Exists(CacheFilePath))
+            if (result)
             {
-                if (new FileInfo(CacheFilePath).Length > 0)
-                {
-                    try
-                    {
-                        List<ServiceEntity> resultEntity = JsonHelper<ServiceEntity>.Deserialize(CacheFilePath);
+                int servicesCount = services.Length;
 
-                        if (resultEntity.Count == servicesCount)
+                if (File.Exists(CacheFilePath))
+                {
+                    if (new FileInfo(CacheFilePath).Length > 0)
+                    {
+                        try
                         {
-                            foreach (var entity in resultEntity)
+                            List<ServiceEntity> resultEntity = JsonHelper<ServiceEntity>.Deserialize(CacheFilePath);
+
+                            if (resultEntity.Count == servicesCount)
                             {
-                                ControlHelper.AddToListViewAndBeautify(lvServices, entity.ServiceName, entity.ServiceStartMode, entity.DisplayName);
+                                foreach (var entity in resultEntity)
+                                {
+                                    ControlHelper.AddToListViewAndBeautify(lvServices, entity.ServiceName, entity.ServiceStartMode, entity.DisplayName);
+                                }
+                            }
+                            else if (File.Exists(CacheFilePath))
+                            {
+                                File.Delete(CacheFilePath);
+
+                                Application.Restart();
+                                Process.GetCurrentProcess().Kill();
                             }
                         }
-                        else if (File.Exists(CacheFilePath))
-                        {
-                            File.Delete(CacheFilePath);
-
-                            Application.Restart();
-                            Process.GetCurrentProcess().Kill();
-                        }
+                        catch { lvServices.Items.Clear(); }
                     }
-                    catch { lvServices.Items.Clear(); }
                 }
-            }
-            else
-            {
-                List<ServiceEntity> listOfServiceEntity = new List<ServiceEntity>();
-
-                foreach (ServiceController service in services)
+                else
                 {
-                    listOfServiceEntity.Add(new ServiceEntity() { DisplayName = service.DisplayName, ServiceName = service.ServiceName, ServiceStartMode = service.StartType });
+                    List<ServiceEntity> listOfServiceEntity = new List<ServiceEntity>();
 
-                    ControlHelper.AddToListViewAndBeautify(lvServices, service.ServiceName, service.StartType, service.DisplayName);
+                    foreach (ServiceController service in services)
+                    {
+                        listOfServiceEntity.Add(new ServiceEntity() { DisplayName = service.DisplayName, ServiceName = service.ServiceName, ServiceStartMode = service.StartType });
+
+                        ControlHelper.AddToListViewAndBeautify(lvServices, service.ServiceName, service.StartType, service.DisplayName);
+                    }
+
+                    JsonHelper<ServiceEntity>.Serialize
+                    (
+                        Entity: listOfServiceEntity,
+                        FilePath: CacheFilePath
+                    );
                 }
 
-                JsonHelper<ServiceEntity>.Serialize
-                (
-                    Entity: listOfServiceEntity,
-                    FilePath: CacheFilePath
-                );
+                lvServices.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                lvServices.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
-
-            lvServices.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            lvServices.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         private void lvServices_SelectedIndexChanged(object sender, EventArgs e)
@@ -140,7 +145,7 @@ namespace WinServicesMgr
                     string selectedServiceName = lvServices.SelectedItems[0].SubItems[0].Text;
 
                     /* Regedit aciq idise, birbawa acilmasini istediyimiz hedef Keye yonlendirib gostere bilmerik, cunki artiq Regedit aciqdir. Yonlendirmemiwden qabaq regediti baglamaliyiq, baglamasaq, aciq qalsa regedit, yeni acmaga caliwdigimiz regedit acilmayaq ve evvelceden aciq olan regedit penceresine fokuslanacayiq. Ona gorede regediti baglayiriq Keyi acmamiwdan qabaq: */
-                    foreach (Process proc in Process.GetProcessesByName("regedit")) proc.Kill();
+                    foreach (Process proc in Process.GetProcessesByName("regedit")) { proc.Kill(); }
 
                     /* Regedit acilanda fokuslanmagini istediyim Key: */
                     var Path = Registry.LocalMachine.OpenSubKey($"SYSTEM\\CurrentControlSet\\Services\\{selectedServiceName}");
@@ -214,9 +219,9 @@ namespace WinServicesMgr
                         foreach (ServiceController service in services)
                             ControlHelper.AddToListViewAndBeautify(lvServices, service.ServiceName, service.StartType, service.DisplayName);
 
-                        if(result > 0)
+                        if (result > 0)
                             MessageBox.Show($"x{result} service state changed.");
-                        else if(result <= 0)
+                        else if (result <= 0)
                             MessageBox.Show("0 service state changed.");
                     }
                     catch { lvServices.Items.Clear(); }

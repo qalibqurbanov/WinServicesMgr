@@ -63,9 +63,9 @@ namespace WinServicesMgr.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon app {
+        internal static System.Drawing.Icon appICO {
             get {
-                object obj = ResourceManager.GetObject("app", resourceCulture);
+                object obj = ResourceManager.GetObject("appICO", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
